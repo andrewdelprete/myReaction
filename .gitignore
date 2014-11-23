@@ -1,0 +1,5 @@
+Thumbs.db
+.sass-cache
+.idea
+node_modules
+bower

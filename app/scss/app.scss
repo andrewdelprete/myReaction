@@ -1,0 +1,145 @@
+@import "amaretto";
+@import "bourbon";
+
+/*
+ * Responsive Breakpoints
+ */
+
+$sm: 'only screen and (min-width: 300px)';
+$md: 'only screen and (min-width: 600px)';
+$lg: 'only screen and (min-width: 900px)';
+
+/*
+ * Variables
+ */
+
+$brown: #64472b;
+$white: #fff;
+
+$bc1: $brown;
+$tc1: $brown;
+$tcw: $white;
+
+/*
+ * Resets
+ */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+} 
+
+img {
+    max-width: 100%;
+}
+
+/*
+ * Items
+ */
+
+.Centerer {
+    display:flex;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.Turd {
+
+}
+
+.Turd__img {
+    max-width: 400px;
+    margin: auto;
+
+    @include media($sm) {
+        width: 90%;
+    }
+}
+
+/*
+ * Buttons
+ */
+.Button {
+    background: none;
+    display: inline-block;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    outline: 0;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+
+    @include border-top-radius(5px);
+    @include border-bottom-radius(5px);
+    @include border-left-radius(5px);
+    @include border-right-radius(5px);
+}
+
+.Button--md {
+    border-width: .15rem;
+    border-style: solid;
+}
+
+/*
+ * Footer
+ */
+.Footer__link {
+    color: tint($tc1, 50%);
+    font-size: .75rem;
+    text-decoration: none;
+}
+
+.Footer__link--hover {
+    transition: 0.3s linear all;
+    &:hover {
+        color: $tc1
+    };
+}
+
+/*
+ * MISC
+ */
+.bc1 {
+    border-color: $bc1;
+}
+
+.bc1--hover {
+    transition: 0.3s linear all;
+
+    &:hover {
+        background-color: $bc1;
+        span {
+            color: $tcw;
+        }
+    }
+}
+
+.tc1 {
+    color: $tc1;
+}
+
+.pv {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.pr {
+    position: relative;
+}
+
+.db {
+    display: block
+}
+
+.tac {
+    text-align: center;
+}
+
