@@ -2,4 +2,4 @@ Thumbs.db
 .sass-cache
 .idea
 node_modules
-bower
+bower_components

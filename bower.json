@@ -1,5 +1,5 @@
 {
-  "name": "reaction",
+  "name": "My Reaction",
   "version": "0.0.0",
   "authors": [
     "Andrew Del Prete <andy@pathsofdesign.com>"
@@ -11,5 +11,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "foundation": "~5.4.7"
+  }
 }

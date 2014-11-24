@@ -2,22 +2,18 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     browserify = require('browserify'),
-    rimraf = require('rimraf'),
     coffee = require('gulp-coffee'),
     coffeelint = require('gulp-coffeelint'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    jshint = require('gulp-jshint'),
     notify = require('gulp-notify'),
     plumber = require('gulp-plumber'),
     autoprefixer = require('gulp-autoprefixer'),
     sass = require('gulp-ruby-sass'),
     minifycss = require('gulp-minify-css'),
     rename = require('gulp-rename'),
-    livereload = require('gulp-livereload'),
-    lr = require('tiny-lr'),
     html = require('html-browserify'),
-    server = lr(),
+    connect = require('gulp-connect'),
     source = require('vinyl-source-stream'),
     streamify = require('gulp-streamify');
 
@@ -61,80 +57,59 @@ gulp.task('scss', function () {
         }))
         .pipe(autoprefixer('last 3 version'))
         .pipe(minifycss())
-        .pipe(gulp.dest(DIST + 'css'))
-        .pipe(notify({message: 'CSS Complete.'}))
-        .pipe(livereload(server));
+        .pipe(rename('app.min.css'))
+        .pipe(gulp.dest(DIST + '/css'))
+        .pipe(connect.reload())
+        .pipe(notify({message: 'CSS Complete.'}));
 
 });
-
-// Vendor CSS
-// gulp.task('vendorcss', function () {
-//     return gulp.src([
-//         NODE + 'normalize.css/normalize.css',
-//         NODE + 'animate.css/animate.css',
-//         NODE + 'angular-loading-bar/src/loading-bar.css',
-//         SRC + 'packages/tipped-4.1.6/css/tipped/tipped.css',
-//         BOWER + 'videogular-themes-default/videogular.css'
-//     ])
-//         .pipe(concat('vendor.css'))
-//         .pipe(gulp.dest(BUILD + '/css/'));
-// });
 
 
 /**
  * Javascript
  */
-gulp.task('js', ['coffee-lint'], function () {
+gulp.task('js', function () {
     return browserify({
-        entries: [ SRC + 'coffee/app.coffee' ]
+        entries: [ SRC + 'react/app.cjsx' ]
     })
     .bundle()
     .pipe(source('app.min.js'))
-    //.pipe(streamify(uglify({ mangle: false })))
+    .pipe(streamify(uglify({ mangle: false })))
     .pipe(gulp.dest(DIST + 'js'))
     .pipe(notify({message: 'JS Complete.'}))
-    .pipe(livereload(server));
+    .pipe(connect.reload());
 });
-
-gulp.task('coffee-lint', function () {
-    return gulp.src([
-            SRC + 'coffee/**/*.coffee'
-        ])
-        .pipe(coffeelint())
-        .pipe(coffeelint.reporter())
-        .pipe(coffee({bare: true}).on('error', gutil.log));
-});
-
 
 
 /**
  * Watch
  */
 
-// Do the creep, ahhhhhhh!
+//Do the creep, ahhhhhhh!
 gulp.task('watch', function () {
-    // Listen on port 35729
-    server.listen(35729, function (err) {
-        if (err) {
-            return console.log(err);
-        }
-    });
-
     // Watch .scss files
     gulp.watch([
         SRC + 'scss/**/*.scss',
     ], ['scss']);
 
     // Watch .coffee files
-    gulp.watch(SRC + 'coffee/**/*.coffee', ['js']);
+    gulp.watch(SRC + 'react/**/*.cjsx', ['js']);
 
     // Watch index.html file
     gulp.watch(SRC + 'index.html', ['build']);
 
 });
 
+gulp.task('connect', function() { 
+    connect.server({
+        root: 'dist',
+        port: 1337,
+        livereload: true    
+    });
+});
+
 /**
  * Master Tasks
  */
 gulp.task('build', ['js', 'scss', 'html']);
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch', 'connect']);
