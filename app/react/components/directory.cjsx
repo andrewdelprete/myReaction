@@ -1,5 +1,6 @@
 React = require('react')
 _ = require('lodash')
+MD5 = require('md5')
 
 DirectoryForm = require('./directory.form.cjsx')
 
@@ -10,6 +11,7 @@ Directory = React.createClass
         }
 
     handleDirectorySubmit: (entry) ->
+
         data = @state.data
 
         # Increment and append Id (used for key)
@@ -17,6 +19,7 @@ Directory = React.createClass
             return entry.id
 
         entry.id = lastId.id++
+        entry.gravatar = ('https://www.gravatar.com/avatar/' + MD5(entry.email))
 
         # Push to data and set State
         data.push(entry)
@@ -24,10 +27,17 @@ Directory = React.createClass
 
 
     render: ->
-        <h1>My Reaction Directory</h1>
-        <div className="Directory">
-            <DirectoryList data={ @state.data }></DirectoryList>
-            <DirectoryForm onDirectorySubmit={ this.handleDirectorySubmit }></DirectoryForm>
+        <div>
+            <div className="row">
+                <div className="small-12 medium-8 large-8 columns">
+                    <h5>Directory</h5>
+                    <DirectoryList data={ @state.data }></DirectoryList>
+                </div>
+                <div className="small-12 medium-4 large-4 columns">
+                    <h5>Add an Entry</h5>
+                    <DirectoryForm onDirectorySubmit={ this.handleDirectorySubmit }></DirectoryForm>
+                </div>
+            </div>
         </div>
 
 
@@ -39,8 +49,10 @@ DirectoryList = React.createClass
         return  <table className="DirectoryList">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Name</th>
                             <th>Position</th>
+                            <th>Email</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,8 +64,10 @@ DirectoryList = React.createClass
 DirectoryItem = React.createClass
     render: ->
         <tr className="DirectoryItem">
+            <td className="DirectoryItem__img"><img src={ @props.person.gravatar or 'https://www.gravatar.com/avatar/913c48bff2a8f2c291231e8fa159b55d' } width="48" /></td>
             <td className="DirectoryItem__name">{ @props.person.name }</td>
             <td className="DirectoryItem__position">{ @props.person.position }</td>
+            <td className="DirectoryItem__email"><a href={ 'mailto:' + @props.person.email }>{ @props.person.email }</a></td>
         </tr>
 
 

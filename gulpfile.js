@@ -15,7 +15,8 @@ var gulp = require('gulp'),
     html = require('html-browserify'),
     connect = require('gulp-connect'),
     source = require('vinyl-source-stream'),
-    streamify = require('gulp-streamify');
+    streamify = require('gulp-streamify'),
+    deploy = require('gulp-gh-pages');
 
 // Node requires for exec and sys
 var exec = require('child_process').exec,
@@ -23,6 +24,7 @@ var exec = require('child_process').exec,
 
 // Directories
 var SRC = './app/',
+    BUILD = './build/',
     DIST = './dist/',
     NODE = './node_modules/',
     BOWER = './bower_components/',
@@ -74,7 +76,7 @@ gulp.task('js', function () {
     })
     .bundle()
     .pipe(source('app.min.js'))
-    .pipe(streamify(uglify({ mangle: false })))
+    //.pipe(streamify(uglify({ mangle: false })))
     .pipe(gulp.dest(DIST + 'js'))
     .pipe(notify({message: 'JS Complete.'}))
     .pipe(connect.reload());
@@ -100,11 +102,11 @@ gulp.task('watch', function () {
 
 });
 
-gulp.task('connect', function() { 
+gulp.task('connect', function() {
     connect.server({
         root: 'dist',
         port: 1337,
-        livereload: true    
+        livereload: true
     });
 });
 
@@ -113,3 +115,9 @@ gulp.task('connect', function() {
  */
 gulp.task('build', ['js', 'scss', 'html']);
 gulp.task('default', ['build', 'watch', 'connect']);
+
+// Deploy to gh-pages
+gulp.task('deploy', function() {
+    return gulp.src(DIST + '**/*')
+        .pipe(deploy())
+});

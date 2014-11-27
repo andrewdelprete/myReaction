@@ -6,11 +6,13 @@ data = [
         id: 1
         name: "John Doe"
         position: "Front-end Developer"
+        email: 'fake-email@address.com'
     }
     {
         id: 2
         name: "Jane Doe"
         position: "Product Manager"
+        email: 'fake-email2@address.com'
     }
 ]
 
