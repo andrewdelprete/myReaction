@@ -12,6 +12,6 @@ Count = React.createClass
         return
 
     render: ->
-        <span className="success round label">{ @state.count }</span>
+        <span className="success round label">{ @state.count } entries</span>
 
 module.exports = Count
