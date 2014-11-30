@@ -1,14 +1,18 @@
 React = require('react')
+Reflux = require('reflux')
 _ = require('lodash')
 MD5 = require('md5')
 
+# Directory
+directoryActions = require('../actions/directoryActions.cjsx')
 DirectoryForm = require('./directory.form.cjsx')
 
 Directory = React.createClass
     getInitialState: () ->
-        return { 
-            data: @props.data 
-        }
+        return data: @props.data 
+
+    componentDidMount: () ->
+        directoryActions.updateCount(@state.data.length)
 
     handleDirectorySubmit: (entry) ->
 
@@ -24,6 +28,8 @@ Directory = React.createClass
         # Push to data and set State
         data.push(entry)
         @setState(data: data)
+
+        directoryActions.updateCount(data.length)
 
 
     render: ->
