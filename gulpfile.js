@@ -16,7 +16,8 @@ var gulp = require('gulp'),
     connect = require('gulp-connect'),
     source = require('vinyl-source-stream'),
     streamify = require('gulp-streamify'),
-    deploy = require('gulp-gh-pages');
+    subtree = require('gulp-subtree'),
+    clean = require('gulp-clean');
 
 // Node requires for exec and sys
 var exec = require('child_process').exec,
@@ -24,11 +25,10 @@ var exec = require('child_process').exec,
 
 // Directories
 var SRC = './app/',
-    BUILD = './build/',
+    TEMP = './temp/',
     DIST = './dist/',
     NODE = './node_modules/',
-    BOWER = './bower_components/',
-    BUILD = './build/';
+    BOWER = './bower_components/';
 
 var onError = function (err) {
     gutil.beep();
@@ -117,7 +117,13 @@ gulp.task('build', ['js', 'scss', 'html']);
 gulp.task('default', ['build', 'watch', 'connect']);
 
 // Deploy to gh-pages
-gulp.task('deploy', function() {
-    return gulp.src(DIST + '**/*')
-        .pipe(deploy())
+gulp.task('temp', function() {
+    return gulp.src(DIST + '/**/*')
+        .pipe(gulp.dest(TEMP));
+});
+
+gulp.task('deploy', ['temp'], function() {
+    return gulp.src(TEMP)
+        .pipe(subtree())
+        .pipe(clean());
 });
