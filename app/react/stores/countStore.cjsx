@@ -8,6 +8,7 @@ countStore = Reflux.createStore
         @listenTo(directoryActions.updateCount, @output)
 
     output: (count) ->
+        # Triggers a change in this store which will alert any listeners
         @trigger(count)    
 
 

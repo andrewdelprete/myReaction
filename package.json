@@ -39,7 +39,8 @@
     "react": "~0.12.1",
     "coffee-reactify": "~2.0.0",
     "gulp-gh-pages": "~0.4.0",
-    "reflux": "~0.2.0"
+    "reflux": "~0.2.0",
+    "iconfonts": "~0.5.1"
   },
   "dependencies": {}
 }

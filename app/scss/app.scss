@@ -1,3 +1,4 @@
+@import '../../node_modules/iconfonts/stylesheets/ionicons';
 @import '../../bower_components/foundation/scss/normalize';
 @import '../../bower_components/foundation/scss/foundation';
 @import '../../bower_components/foundation/scss/foundation/components/buttons';
@@ -16,4 +17,12 @@
 
 footer {
     font-size: .75rem
+}
+
+@include ion-font;
+.trash:before {
+    @include ion-icon("ios7-trash-outline", 25px, $jet);
+}
+.trash:hover:before {
+    @include ion-icon("ios7-trash-outline", 25px, $alert-color);
 }

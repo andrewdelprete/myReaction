@@ -8,13 +8,29 @@ directoryActions = require('../actions/directoryActions.cjsx')
 DirectoryForm = require('./directory.form.cjsx')
 
 Directory = React.createClass
+    mixins: [Reflux.ListenerMixin]
+
     getInitialState: () ->
         return data: @props.data 
 
     componentDidMount: () ->
         directoryActions.updateCount(@state.data.length)
+        @listenTo(directoryActions.trashEntry, (person) -> @_handleTrashEntry(person))
 
-    handleDirectorySubmit: (entry) ->
+    _handleTrashEntry: (person) ->
+        data = @state.data
+
+        # Remove Person
+        _.remove(data, person)
+
+        # Set State to render changes
+        @setState(data: data)
+
+        # Update Count
+        directoryActions.updateCount(data.length)
+
+
+    _handleDirectorySubmit: (entry) ->
 
         data = @state.data
 
@@ -31,7 +47,6 @@ Directory = React.createClass
 
         directoryActions.updateCount(data.length)
 
-
     render: ->
         <div>
             <div className="row">
@@ -41,7 +56,7 @@ Directory = React.createClass
                 </div>
                 <div className="small-12 medium-4 large-4 columns">
                     <h5>Add an Entry</h5>
-                    <DirectoryForm onDirectorySubmit={ this.handleDirectorySubmit }></DirectoryForm>
+                    <DirectoryForm onDirectorySubmit={ @_handleDirectorySubmit }></DirectoryForm>
                 </div>
             </div>
         </div>
@@ -59,6 +74,7 @@ DirectoryList = React.createClass
                             <th>Name</th>
                             <th>Position</th>
                             <th>Email</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,12 +84,17 @@ DirectoryList = React.createClass
 
 
 DirectoryItem = React.createClass
+    _handleTrashEntry: () ->
+        directoryActions.trashEntry(@props.person)
+
+
     render: ->
         <tr className="DirectoryItem">
             <td className="DirectoryItem__img"><img src={ @props.person.gravatar or 'https://www.gravatar.com/avatar/913c48bff2a8f2c291231e8fa159b55d' } width="48" /></td>
             <td className="DirectoryItem__name">{ @props.person.name }</td>
             <td className="DirectoryItem__position">{ @props.person.position }</td>
             <td className="DirectoryItem__email"><a href={ 'mailto:' + @props.person.email }>{ @props.person.email }</a></td>
+            <td className="DirectoryItem__action"><a className="trash" onClick={ @_handleTrashEntry }></a></td>
         </tr>
 
 
