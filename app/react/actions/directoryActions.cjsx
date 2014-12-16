@@ -3,7 +3,8 @@ Reflux = require('reflux')
 directoryActions = Reflux.createActions([
     'updateCount'
     'trashEntry',
-    'addEntry'
+    'addEntry',
+    'editEntry'
 ])
 
 module.exports = directoryActions

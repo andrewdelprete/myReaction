@@ -78,6 +78,7 @@ DirectoryList = React.createClass
                             <th>Position</th>
                             <th>Email</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,8 @@ DirectoryItem = React.createClass
     _handleTrashEntry: () ->
         directoryActions.trashEntry(@props.person)
 
+    _handleEditEntry: () ->
+        directoryActions.editEntry(@props.person)
 
     render: ->
         <tr className="DirectoryItem">
@@ -98,6 +101,7 @@ DirectoryItem = React.createClass
             <td className="DirectoryItem__position">{ @props.person.position }</td>
             <td className="DirectoryItem__email"><a href={ 'mailto:' + @props.person.email }>{ @props.person.email }</a></td>
             <td className="DirectoryItem__action"><a className="trash" onClick={ @_handleTrashEntry }></a></td>
+            <td className="DirectoryItem__action"><a className="edit" onClick={ @_handleEditEntry }></a></td>
         </tr>
 
 

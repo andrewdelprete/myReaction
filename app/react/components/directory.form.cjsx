@@ -1,7 +1,23 @@
 React = require('react')
+Reflux = require('reflux')
+
 directoryActions = require('../actions/directoryActions.cjsx')
 
 DirectoryForm = React.createClass
+    mixins: [Reflux.ListenerMixin]
+    componentDidMount: () ->
+        @listenTo(directoryActions.editEntry, (person) -> @_handleEditEntry(person))
+
+        return
+
+    _handleEditEntry: (person) ->
+
+        @refs.name.getDOMNode().value = person.name
+        @refs.position.getDOMNode().value = person.position
+        @refs.email.getDOMNode().value = person.email
+
+        return
+
     _handleSubmit: (e) ->
         e.preventDefault()       
 

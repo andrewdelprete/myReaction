@@ -26,3 +26,11 @@ footer {
 .trash:hover:before {
     @include ion-icon("ios7-trash-outline", 25px, $alert-color);
 }
+
+@include ion-font;
+.edit:before {
+    @include ion-icon("ios7-trash-outline", 25px, $jet);
+}
+.edit:hover:before {
+    @include ion-icon("ios7-trash-outline", 25px, $alert-color);
+}
