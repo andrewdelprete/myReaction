@@ -16,6 +16,9 @@ Directory = React.createClass
     componentDidMount: () ->
         directoryActions.updateCount(@state.data.length)
         @listenTo(directoryActions.trashEntry, (person) -> @_handleTrashEntry(person))
+        @listenTo(directoryActions.addEntry, (person) -> @_handleAddEntry(person))
+
+        return
 
     _handleTrashEntry: (person) ->
         data = @state.data
@@ -30,19 +33,19 @@ Directory = React.createClass
         directoryActions.updateCount(data.length)
 
 
-    _handleDirectorySubmit: (entry) ->
+    _handleAddEntry: (person) ->
 
         data = @state.data
 
         # Increment and append Id (used for key)
-        lastId = _.max data, (entry) ->
-            return entry.id
+        lastId = _.max data, (person) ->
+            return person.id
 
-        entry.id = lastId.id++
-        entry.gravatar = ('https://www.gravatar.com/avatar/' + MD5(entry.email))
+        person.id = lastId.id++
+        person.gravatar = ('https://www.gravatar.com/avatar/' + MD5(person.email))
 
         # Push to data and set State
-        data.push(entry)
+        data.push(person)
         @setState(data: data)
 
         directoryActions.updateCount(data.length)
@@ -50,13 +53,13 @@ Directory = React.createClass
     render: ->
         <div>
             <div className="row">
-                <div className="small-12 medium-8 large-8 columns">
+                <div className="medium-8 columns">
                     <h5>Directory</h5>
                     <DirectoryList data={ @state.data }></DirectoryList>
                 </div>
-                <div className="small-12 medium-4 large-4 columns">
+                <div className="medium-4 columns">
                     <h5>Add an Entry</h5>
-                    <DirectoryForm onDirectorySubmit={ @_handleDirectorySubmit }></DirectoryForm>
+                    <DirectoryForm></DirectoryForm>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 React = require('react')
+directoryActions = require('../actions/directoryActions.cjsx')
 
 DirectoryForm = React.createClass
     _handleSubmit: (e) ->
@@ -11,7 +12,9 @@ DirectoryForm = React.createClass
 
         if (data.name && data.position)
             # Pass data to callback 'this._handleDirectorySubmit'
-            @props.onDirectorySubmit(data)
+            # @props.onDirectorySubmit(data)        
+            directoryActions.addEntry(data)
+        
 
             # Reset field values after submit
             @refs.name.getDOMNode().value = ''
