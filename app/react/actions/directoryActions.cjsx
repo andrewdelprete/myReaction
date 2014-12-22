@@ -4,7 +4,8 @@ directoryActions = Reflux.createActions([
     'updateCount'
     'trashEntry',
     'addEntry',
-    'editEntry'
+    'editEntry',
+    'updateEntry'
 ])
 
 module.exports = directoryActions

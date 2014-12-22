@@ -2,7 +2,7 @@ Reflux = require('reflux')
 
 directoryActions = require('../actions/directoryActions.cjsx')
 
-# Creating a Data Store - Listening to updateCount action
+# Creating a Data Store
 directoryStore = Reflux.createStore 
     init: () ->
         @listenTo(directoryActions.addEntry, @output)

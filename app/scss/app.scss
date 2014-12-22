@@ -21,16 +21,16 @@ footer {
 
 @include ion-font;
 .trash:before {
-    @include ion-icon("ios7-trash-outline", 25px, $jet);
+    @include ion-icon("trash-b", 25px, $jet);
 }
 .trash:hover:before {
-    @include ion-icon("ios7-trash-outline", 25px, $alert-color);
+    @include ion-icon("trash-b", 25px, $alert-color);
 }
 
 @include ion-font;
 .edit:before {
-    @include ion-icon("ios7-trash-outline", 25px, $jet);
+    @include ion-icon("edit", 23px, $jet);
 }
 .edit:hover:before {
-    @include ion-icon("ios7-trash-outline", 25px, $alert-color);
+    @include ion-icon("edit", 23px, $alert-color);
 }

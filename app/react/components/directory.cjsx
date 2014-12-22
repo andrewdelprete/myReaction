@@ -1,4 +1,4 @@
-React = require('react')
+React = require('react/addons')
 Reflux = require('reflux')
 _ = require('lodash')
 MD5 = require('md5')
@@ -17,6 +17,7 @@ Directory = React.createClass
         directoryActions.updateCount(@state.data.length)
         @listenTo(directoryActions.trashEntry, (person) -> @_handleTrashEntry(person))
         @listenTo(directoryActions.addEntry, (person) -> @_handleAddEntry(person))
+        @listenTo(directoryActions.updateEntry, (person) -> @_handleUpdateEntry(person))
 
         return
 
@@ -49,6 +50,23 @@ Directory = React.createClass
         @setState(data: data)
 
         directoryActions.updateCount(data.length)
+
+
+    _handleUpdateEntry: (person) ->
+        data = @state.data
+
+        person.gravatar = ('https://www.gravatar.com/avatar/' + MD5(person.email))
+        person.id = parseInt(person.id)
+
+        # Find the index Key of the person.id we're trying to edit
+        key = _.findWhere data, (value, key) =>
+            updatePerson = {}
+            updatePerson[key] = { $merge: person }
+
+            # Make update to this entry alone and set data
+            if (value.id == person.id)
+                @setState(data: React.addons.update(data, updatePerson))
+
 
     render: ->
         <div>
