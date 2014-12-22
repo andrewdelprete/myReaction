@@ -42,7 +42,7 @@ Directory = React.createClass
         lastId = _.max data, (person) ->
             return person.id
 
-        person.id = lastId.id++
+        person.id = lastId.id++ or 1
         person.gravatar = ('https://www.gravatar.com/avatar/' + MD5(person.email))
 
         # Push to data and set State
