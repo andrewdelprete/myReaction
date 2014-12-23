@@ -28,7 +28,7 @@ Directory = React.createClass
         _.remove(data, person)
 
         # Set State to render changes
-        @setState(data: data)
+        @replaceState(data: data)
 
         # Update Count
         directoryActions.updateCount(data.length)
@@ -56,16 +56,17 @@ Directory = React.createClass
         
         person.id = parseInt(person.id)
         person.gravatar = ('https://www.gravatar.com/avatar/' + MD5(person.email))
-
+        
         # Find the index Key of the person.id we're trying to edit
-        key = _.findWhere data, (value, key) =>
-            updatePerson = {}
-            updatePerson[key] = { $merge: person }
+        updatePerson = {}
 
-            # Make update to this entry alone and set data
+        _.findWhere data, (value, key) ->
             if (value.id == person.id)
-                @setState(data: React.addons.update(data, updatePerson))
+                updatePerson[key] = { $merge: person }
 
+        # Make update to this entry alone and set State
+        @setState(data: React.addons.update(data, updatePerson))
+        document.getElementById('form-header').innerHTML = 'Add an Entry'
 
     render: ->
         <div className="row">
@@ -74,7 +75,7 @@ Directory = React.createClass
                 <DirectoryList data={ @state.data }></DirectoryList>
             </div>
             <div className="medium-4 columns">
-                <h5>Add an Entry</h5>
+                <h5 id="form-header">Add an Entry</h5>
                 <DirectoryForm></DirectoryForm>
             </div>
         </div>
@@ -107,6 +108,7 @@ DirectoryItem = React.createClass
         directoryActions.trashEntry(@props.person)
 
     _handleEditEntry: () ->
+        document.getElementById('form-header').innerHTML = 'Update Entry'
         directoryActions.editEntry(@props.person)
 
     render: ->

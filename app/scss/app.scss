@@ -21,7 +21,7 @@ footer {
 
 @include ion-font;
 .trash:before {
-    @include ion-icon("trash-b", 25px, $jet);
+    @include ion-icon("trash-b", 25px, $aluminum);
 }
 .trash:hover:before {
     @include ion-icon("trash-b", 25px, $alert-color);
@@ -29,7 +29,7 @@ footer {
 
 @include ion-font;
 .edit:before {
-    @include ion-icon("edit", 23px, $jet);
+    @include ion-icon("edit", 23px, $aluminum);
 }
 .edit:hover:before {
     @include ion-icon("edit", 23px, $success-color);
