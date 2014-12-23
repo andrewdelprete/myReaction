@@ -35,7 +35,6 @@ Directory = React.createClass
 
 
     _handleAddEntry: (person) ->
-
         data = @state.data
 
         # Increment and append Id (used for key)
@@ -46,17 +45,17 @@ Directory = React.createClass
         person.gravatar = ('https://www.gravatar.com/avatar/' + MD5(person.email))
 
         # Push to data and set State
-        data.push(person)
-        @setState(data: data)
+        @setState(data: React.addons.update(data, { $push: [ person ] }))
 
+        # Update Count
         directoryActions.updateCount(data.length)
 
 
     _handleUpdateEntry: (person) ->
         data = @state.data
-
-        person.gravatar = ('https://www.gravatar.com/avatar/' + MD5(person.email))
+        
         person.id = parseInt(person.id)
+        person.gravatar = ('https://www.gravatar.com/avatar/' + MD5(person.email))
 
         # Find the index Key of the person.id we're trying to edit
         key = _.findWhere data, (value, key) =>
@@ -69,16 +68,14 @@ Directory = React.createClass
 
 
     render: ->
-        <div>
-            <div className="row">
-                <div className="medium-8 columns">
-                    <h5>Directory</h5>
-                    <DirectoryList data={ @state.data }></DirectoryList>
-                </div>
-                <div className="medium-4 columns">
-                    <h5>Add an Entry</h5>
-                    <DirectoryForm></DirectoryForm>
-                </div>
+        <div className="row">
+            <div className="medium-8 columns">
+                <h5>Directory</h5>
+                <DirectoryList data={ @state.data }></DirectoryList>
+            </div>
+            <div className="medium-4 columns">
+                <h5>Add an Entry</h5>
+                <DirectoryForm></DirectoryForm>
             </div>
         </div>
 
