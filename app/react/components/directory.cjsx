@@ -47,8 +47,9 @@ Directory = React.createClass
         # Push to data and set State
         @setState(data: React.addons.update(data, { $push: [ person ] }))
 
+
         # Update Count
-        directoryActions.updateCount(data.length)
+        directoryActions.updateCount(@state.data.length)
 
 
     _handleUpdateEntry: (person) ->
